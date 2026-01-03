@@ -52,8 +52,15 @@ export default function ResultCard({ result, loading }) {
 
       {/* Error */}
       {result?.error && (
-        <div className="mt-4 text-sm text-red-400">
-          {result.error}
+        <div className="mt-4">
+          <div className="text-sm text-red-400 font-medium">
+            {result.error}
+          </div>
+          {result.details && (
+            <div className="mt-1 text-xs text-red-300 opacity-70">
+              {result.details}
+            </div>
+          )}
         </div>
       )}
 
