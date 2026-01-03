@@ -13,6 +13,37 @@ def get_groq_client():
         raise RuntimeError("GROQ_API_KEY not found in environment variables")
     return Groq(api_key=api_key)
 
+def get_best_model(client):
+    """
+    Dynamically fetches available models from Groq and picks the best 
+    supported Llama model to avoid 'decommissioned model' errors.
+    """
+    try:
+        # Get list of models from API
+        models = client.models.list()
+        available_ids = [m.id for m in models.data]
+        
+        # Preference list (Best to Fastest/Cheapest)
+        preferences = [
+            "llama-3.3-70b-versatile",
+            "llama-3.1-70b-versatile",
+            "llama3-70b-8192",
+            "llama-3.2-11b-vision-preview",
+            "llama-3.1-8b-instant",
+            "llama3-8b-8192"
+        ]
+        
+        for model_id in preferences:
+            if model_id in available_ids:
+                return model_id
+                
+        # Default fallback if list is empty or unexpected
+        return available_ids[0] if available_ids else "llama-3.1-8b-instant"
+        
+    except Exception as e:
+        print(f"Error fetching models: {e}")
+        return "llama-3.1-8b-instant" # Safe hardcoded fallback 
+
 SYSTEM_PROMPT = """
 You are a medical lab report analysis assistant.
 
@@ -58,8 +89,11 @@ Lab Report:
 
     try:
         client = get_groq_client()
+        active_model = get_best_model(client)
+        print(f"Using Groq Model: {active_model}")
+
         completion = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model=active_model,
             temperature=0.2,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
