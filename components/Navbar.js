@@ -1,20 +1,20 @@
 "use client";
 import { motion } from "framer-motion";
 
-export default function Navbar(){
+export default function Navbar() {
   return (
     <motion.header
-      initial={{ y:-30, opacity:0 }}
-      animate={{ y:0, opacity:1 }}
+      initial={{ y: -30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       transition={{ duration: .6, ease: 'easeOut' }}
-      className="w-full py-4"
+      className="w-full py-4 relative z-50"
     >
       <div className="container-hero flex items-center justify-between">
-        
+
         {/* LEFT LOGO */}
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent shadow-lg">
-            <span style={{fontWeight:700}}>MI</span>
+            <span style={{ fontWeight: 700 }}>MI</span>
           </div>
           <div>
             <div className="kicker">Medi-Intel</div>
@@ -29,14 +29,21 @@ export default function Navbar(){
           <a href="/dashboard" className="hud cursor-pointer">Dashboard</a>
 
           {/* LinkedIn Redirect */}
-          <button
-            className="btn-accent"
-            onClick={() => window.open("www.linkedin.com/in/shivammaurya01", "_blank")}
+          <a
+            href="https://www.linkedin.com/in/shivammaurya01"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-accent inline-flex items-center"
           >
             LinkedIn
-          </button>
+          </a>
 
-          <button className="btn-accent">Contact</button>
+          <a
+            href="mailto:student18171@gmail.com"
+            className="btn-accent inline-flex items-center"
+          >
+            Contact
+          </a>
         </nav>
 
       </div>
