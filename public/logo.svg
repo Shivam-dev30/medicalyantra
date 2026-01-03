@@ -1,0 +1,34 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="neon-grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00f5d4" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Shape (Hexagon-ish) -->
+  <path d="M256 50 L450 150 V362 L256 462 L62 362 V150 Z" 
+        stroke="url(#neon-grad)" 
+        stroke-width="12" 
+        fill="rgba(255,255,255,0.03)" 
+        filter="url(#glow)" />
+
+  <!-- Inner Pulse/M Shape -->
+  <path d="M130 200 L180 320 L256 180 L332 320 L382 200" 
+        stroke="white" 
+        stroke-width="20" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#glow)" />
+        
+  <!-- Floating dots -->
+  <circle cx="256" cy="100" r="8" fill="#00f5d4" filter="url(#glow)" />
+  <circle cx="256" cy="412" r="8" fill="#7c3aed" filter="url(#glow)" />
+</svg>

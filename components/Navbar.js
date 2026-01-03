@@ -13,8 +13,12 @@ export default function Navbar() {
 
         {/* LEFT LOGO */}
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent shadow-lg">
-            <span style={{ fontWeight: 700 }}>MI</span>
+          <div className="relative w-12 h-12 flex items-center justify-center">
+            <img
+              src="/logo.svg"
+              alt="Medi-Intel Logo"
+              className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(0,245,212,0.5)]"
+            />
           </div>
           <div>
             <div className="kicker">Medi-Intel</div>
