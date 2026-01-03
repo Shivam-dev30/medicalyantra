@@ -52,12 +52,13 @@ export default function ResultCard({ result, loading }) {
 
       {/* Error */}
       {result?.error && (
-        <div className="mt-4">
-          <div className="text-sm text-red-400 font-medium">
-            {result.error}
+        <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+          <div className="text-sm text-red-400 font-bold mb-1">
+            ⚠️ {result.error}
           </div>
           {result.details && (
-            <div className="mt-1 text-xs text-red-300 opacity-70">
+            <div className="mt-2 text-xs text-yellow-300 font-mono break-words">
+              <span className="opacity-50 text-[10px] uppercase block mb-1">Error Details:</span>
               {result.details}
             </div>
           )}
