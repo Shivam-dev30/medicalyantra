@@ -1,44 +1,37 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="neon-grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#00f5d4" />
+      <stop offset="50%" stop-color="#00e0ff" />
       <stop offset="100%" stop-color="#7c3aed" />
     </linearGradient>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="12" result="coloredBlur" />
-      <feMerge>
-        <feMergeNode in="coloredBlur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
 
-  <!-- Outer Tech Yantra / Chip Outline -->
-  <path d="M256 40 L460 140 V372 L256 472 L52 372 V140 Z" 
-        stroke="url(#neon-grad)" 
-        stroke-width="12" 
-        fill="rgba(0,0,0,0.2)" 
-        filter="url(#glow)" />
-
-  <!-- Medical Cross (Stylized) -->
-  <path d="M256 120 V392 M120 256 H392" 
-        stroke="white" 
-        stroke-width="24" 
-        stroke-linecap="round" 
-        stroke-opacity="0.9"
-        filter="url(#glow)" />
-
-  <!-- Circuit / DNA Nodes -->
-  <circle cx="256" cy="120" r="16" fill="#00f5d4" filter="url(#glow)" />
-  <circle cx="256" cy="392" r="16" fill="#7c3aed" filter="url(#glow)" />
-  <circle cx="120" cy="256" r="16" fill="#00f5d4" filter="url(#glow)" />
-  <circle cx="392" cy="256" r="16" fill="#7c3aed" filter="url(#glow)" />
+  <!-- Hexagonal Yantra Frame -->
+  <path d="M256 20 L480 130 V382 L256 492 L32 382 V130 L256 20Z" 
+        stroke="url(#grad1)" stroke-width="8" fill="rgba(255,255,255,0.02)" filter="url(#neon-glow)" />
   
-  <!-- Digital Pulse Line overlay -->
-  <path d="M180 256 L220 200 L256 310 L290 220 L330 256" 
-        stroke="#00e0ff" 
-        stroke-width="6" 
-        fill="none" 
-        stroke-linejoin="round"
-        opacity="0.8" />
+  <!-- Inner Rotating Squares (Yantra style) -->
+  <rect x="136" y="136" width="240" height="240" transform="rotate(45 256 256)" 
+        stroke="rgba(0, 245, 212, 0.4)" stroke-width="4" fill="none" />
+  <rect x="136" y="136" width="240" height="240" 
+        stroke="rgba(124, 58, 237, 0.4)" stroke-width="4" fill="none" />
+
+  <!-- Central Medical Symbol (Staff of Asclepius / Pulse hybrid) -->
+  <path d="M256 120 V392 M180 256 H332" 
+        stroke="white" stroke-width="20" stroke-linecap="round" filter="url(#neon-glow)" />
+  
+  <!-- AI Pulse Overlay -->
+  <path d="M120 256 L180 256 L210 160 L240 352 L275 220 L300 280 L330 256 L392 256" 
+        stroke="#00f5d4" stroke-width="6" fill="none" stroke-linejoin="round" filter="url(#neon-glow)" />
+
+  <!-- Power Nodes -->
+  <circle cx="256" cy="120" r="12" fill="#00f5d4" filter="url(#neon-glow)" />
+  <circle cx="256" cy="392" r="12" fill="#7c3aed" filter="url(#neon-glow)" />
+  <circle cx="120" cy="256" r="12" fill="#00f5d4" filter="url(#neon-glow)" />
+  <circle cx="392" cy="256" r="12" fill="#7c3aed" filter="url(#neon-glow)" />
 </svg>
