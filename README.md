@@ -95,7 +95,9 @@ npm run dev
 
 | Upload Interface | Detailed Analysis |
 | :---: | :---: |
-| *(Add Screenshot)* | *(Add Screenshot)* |
+| <img width="1833" height="857" alt="image" src="https://github.com/user-attachments/assets/2e79b86b-c834-4385-8b30-34795d4859b0" />
+ | <img width="1630" height="894" alt="image" src="https://github.com/user-attachments/assets/f3fe22c7-f328-45ac-b212-6064341592f4" />
+ |
 
 ---
 
