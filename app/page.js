@@ -16,11 +16,15 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ A result is valid if it has backend fields
+  // ✅ A result is valid if backend returned ANY meaningful data
   const hasValidResult =
     result &&
     typeof result === "object" &&
-    !!result.overall_status;
+    (
+      result.overall_status ||
+      result.issues_detected?.length > 0 ||
+      result.modern_medical_insights?.length > 0
+    );
 
   return (
     <PageTransition>
@@ -46,12 +50,12 @@ export default function Home() {
                   }}
                 />
 
-                {/* ECG Wave (loading or success) */}
+                {/* ECG Wave */}
                 {(loading || hasValidResult) && (
                   <ECGWave active={loading} />
                 )}
 
-                {/* Full Detailed Analysis */}
+                {/* ✅ FULL DETAILED ANALYSIS */}
                 {hasValidResult && (
                   <DetailedResult result={result} />
                 )}

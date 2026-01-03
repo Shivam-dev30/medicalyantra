@@ -24,64 +24,90 @@ export default function DetailedResult({ result }) {
       </Section>
 
       {/* Issues */}
-      {result.issues_detected?.length > 0 && (
+      {/* Issues */}
+      {result.issues_detected && (
         <Section title="Detected Issues">
-          <ul className="list-disc list-inside space-y-1 text-sm">
-            {result.issues_detected.map((i, idx) => (
-              <li key={idx}>
-                <strong>{i.parameter}</strong>: {i.issue}  
-                <span className="opacity-70">
-                  {" "}({i.risk_level})
-                </span>
-              </li>
-            ))}
-          </ul>
+          {Array.isArray(result.issues_detected) && result.issues_detected.length > 0 ? (
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              {result.issues_detected.map((i, idx) => (
+                <li key={idx}>
+                  <strong>{i.parameter}</strong>: {i.issue}
+                  <span className="opacity-70">
+                    {" "}({i.risk_level})
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm opacity-90">{typeof result.issues_detected === 'string' ? result.issues_detected : "No specific issues detected."}</p>
+          )}
         </Section>
       )}
 
       {/* Modern Medical */}
-      {result.modern_medical_insights?.length > 0 && (
+      {/* Modern Medical */}
+      {result.modern_medical_insights && (
         <Section title="Medical Insights">
-          <ul className="list-disc list-inside space-y-1 text-sm">
-            {result.modern_medical_insights.map((i, idx) => (
-              <li key={idx}>{i}</li>
-            ))}
-          </ul>
+          {Array.isArray(result.modern_medical_insights) ? (
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              {result.modern_medical_insights.map((i, idx) => (
+                <li key={idx}>{i}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm opacity-90">{result.modern_medical_insights}</p>
+          )}
         </Section>
       )}
 
       {/* Ayurveda */}
-      {result.ayurvedic_guidance?.length > 0 && (
+      {/* Ayurveda */}
+      {result.ayurvedic_guidance && (
         <Section title="Ayurvedic Guidance">
-          <ul className="list-disc list-inside space-y-1 text-sm">
-            {result.ayurvedic_guidance.map((i, idx) => (
-              <li key={idx}>{i}</li>
-            ))}
-          </ul>
+          {Array.isArray(result.ayurvedic_guidance) ? (
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              {result.ayurvedic_guidance.map((i, idx) => (
+                <li key={idx}>{i}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm opacity-90">{result.ayurvedic_guidance}</p>
+          )}
         </Section>
       )}
 
       {/* Lifestyle */}
-      {result.lifestyle_recommendations?.length > 0 && (
+      {/* Lifestyle */}
+      {result.lifestyle_recommendations && (
         <Section title="Lifestyle Recommendations">
-          <ul className="list-disc list-inside space-y-1 text-sm">
-            {result.lifestyle_recommendations.map((i, idx) => (
-              <li key={idx}>{i}</li>
-            ))}
-          </ul>
+          {Array.isArray(result.lifestyle_recommendations) ? (
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              {result.lifestyle_recommendations.map((i, idx) => (
+                <li key={idx}>{i}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm opacity-90">{result.lifestyle_recommendations}</p>
+          )}
         </Section>
       )}
 
       {/* Doctor */}
-      {result.when_to_see_doctor?.length > 0 && (
+      {/* Doctor */}
+      {result.when_to_see_doctor && (
         <Section title="When to Consult a Doctor">
-          <ul className="list-disc list-inside space-y-1 text-sm">
-            {result.when_to_see_doctor.map((i, idx) => (
-              <li key={idx}>{i}</li>
-            ))}
-          </ul>
+          {Array.isArray(result.when_to_see_doctor) ? (
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              {result.when_to_see_doctor.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm opacity-90">{result.when_to_see_doctor}</p>
+          )}
         </Section>
       )}
+
 
       {/* Disclaimer */}
       <p className="text-xs opacity-60 mt-6">

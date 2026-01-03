@@ -6,12 +6,12 @@ import json
 from groq import Groq
 from groq import BadRequestError
 
-api_key = os.getenv("GROQ_API_KEY")
-
-if not api_key:
-    raise RuntimeError("GROQ_API_KEY not found")
-
-client = Groq(api_key=api_key)
+# Initialize client lazily to avoid startup crash if key is missing
+def get_groq_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY not found in environment variables")
+    return Groq(api_key=api_key)
 
 SYSTEM_PROMPT = """
 You are a medical lab report analysis assistant.
@@ -57,13 +57,15 @@ Lab Report:
 """
 
     try:
+        client = get_groq_client()
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             temperature=0.2,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_prompt}
-            ]
+            ],
+            response_format={"type": "json_object"}
         )
 
         raw_output = completion.choices[0].message.content.strip()
