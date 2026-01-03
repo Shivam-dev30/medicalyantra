@@ -59,7 +59,7 @@ Lab Report:
     try:
         client = get_groq_client()
         completion = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="llama3-8b-8192",
             temperature=0.2,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
@@ -70,32 +70,23 @@ Lab Report:
 
         raw_output = completion.choices[0].message.content.strip()
 
-        # 🔍 LOG OUTPUT (DEBUG)
-        print("----- RAW LLaMA OUTPUT -----")
-        print(raw_output)
-        print("---------------------------")
-
         # 🛡️ SAFE JSON EXTRACTION
         json_start = raw_output.find("{")
         json_end = raw_output.rfind("}") + 1
 
         if json_start == -1 or json_end == -1:
             return {
-                "error": "AI did not return JSON",
-                "raw_output": raw_output
+                "error": "AI response format error",
+                "details": "AI failed to generate a valid JSON structure."
             }
 
         clean_json = raw_output[json_start:json_end]
         return json.loads(clean_json)
 
-    except BadRequestError as e:
-        return {
-            "error": "Groq request failed",
-            "details": str(e)
-        }
-
     except Exception as e:
+        error_msg = str(e)
+        print(f"GROQ ERROR: {error_msg}")
         return {
-            "error": "Unexpected server error",
-            "details": str(e)
+            "error": "AI Analysis Failed",
+            "details": error_msg
         }
