@@ -5,30 +5,40 @@
       <stop offset="100%" stop-color="#7c3aed" />
     </linearGradient>
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="15" result="coloredBlur" />
+      <feGaussianBlur stdDeviation="12" result="coloredBlur" />
       <feMerge>
         <feMergeNode in="coloredBlur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
   </defs>
-  
-  <!-- Background Shape (Hexagon-ish) -->
-  <path d="M256 50 L450 150 V362 L256 462 L62 362 V150 Z" 
+
+  <!-- Outer Tech Yantra / Chip Outline -->
+  <path d="M256 40 L460 140 V372 L256 472 L52 372 V140 Z" 
         stroke="url(#neon-grad)" 
         stroke-width="12" 
-        fill="rgba(255,255,255,0.03)" 
+        fill="rgba(0,0,0,0.2)" 
         filter="url(#glow)" />
 
-  <!-- Inner Pulse/M Shape -->
-  <path d="M130 200 L180 320 L256 180 L332 320 L382 200" 
+  <!-- Medical Cross (Stylized) -->
+  <path d="M256 120 V392 M120 256 H392" 
         stroke="white" 
-        stroke-width="20" 
+        stroke-width="24" 
         stroke-linecap="round" 
-        stroke-linejoin="round"
+        stroke-opacity="0.9"
         filter="url(#glow)" />
-        
-  <!-- Floating dots -->
-  <circle cx="256" cy="100" r="8" fill="#00f5d4" filter="url(#glow)" />
-  <circle cx="256" cy="412" r="8" fill="#7c3aed" filter="url(#glow)" />
+
+  <!-- Circuit / DNA Nodes -->
+  <circle cx="256" cy="120" r="16" fill="#00f5d4" filter="url(#glow)" />
+  <circle cx="256" cy="392" r="16" fill="#7c3aed" filter="url(#glow)" />
+  <circle cx="120" cy="256" r="16" fill="#00f5d4" filter="url(#glow)" />
+  <circle cx="392" cy="256" r="16" fill="#7c3aed" filter="url(#glow)" />
+  
+  <!-- Digital Pulse Line overlay -->
+  <path d="M180 256 L220 200 L256 310 L290 220 L330 256" 
+        stroke="#00e0ff" 
+        stroke-width="6" 
+        fill="none" 
+        stroke-linejoin="round"
+        opacity="0.8" />
 </svg>
