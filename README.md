@@ -1,6 +1,7 @@
 # 🏥 Medi-Intel: Holographic Medical Analyzer
 
-![Medi-Intel Banner](https://via.placeholder.com/1200x400?text=Medi-Intel+Holographic+Medical+Analyzer)
+![Medi-Intel Banner](<img width="800" height="533" alt="image" src="https://github.com/user-attachments/assets/f7963675-3130-4ffe-b1fc-388b6858e42e" />
+)
 
 **Medi-Intel** is a cutting-edge, AI-powered medical report analysis tool wrapped in a futuristic, holographic user interface. It bridges the gap between complex medical diagnostics and patient understanding by transforming raw lab reports into clear, actionable health insights.
 
