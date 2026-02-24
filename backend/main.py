@@ -53,5 +53,5 @@ async def analyze(
         print("BACKEND ERROR:", e)
         raise HTTPException(
             status_code=500,
-            detail="Backend processing failed"
+            detail=f"Backend processing failed: {str(e)}"
         )

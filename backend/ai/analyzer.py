@@ -23,14 +23,14 @@ def get_best_model(client):
         models = client.models.list()
         available_ids = [m.id for m in models.data]
         
-        # Preference list (Standard Free Tier Models)
+        # Preference list — production-grade models only (no decommissioned ones)
         preferences = [
-            "llama-3.3-70b-versatile",
-            "llama-3.1-8b-instant",
-            "llama-3.2-3b-preview",
-            "llama-3.2-1b-preview",
-            "mixtral-8x7b-32768",
-            "gemma2-9b-it"
+            "llama-3.3-70b-versatile",         # Best quality, production
+            "meta-llama/llama-4-scout-17b-16e-instruct",  # Fast Llama 4, preview
+            "meta-llama/llama-4-maverick-17b-128e-instruct",  # Llama 4 Maverick
+            "llama-3.1-8b-instant",            # Fast, production
+            "qwen/qwen3-32b",                  # Alibaba, preview
+            "gemma2-9b-it",                    # Google, fallback
         ]
         
         for model_id in preferences:
@@ -120,6 +120,13 @@ Lab Report:
     except Exception as e:
         error_msg = str(e)
         print(f"GROQ ERROR: {error_msg}")
+        
+        if "401" in error_msg or "invalid_api_key" in error_msg:
+            return {
+                "error": "Invalid Groq API Key",
+                "details": "The API key in backend/.env is invalid. Get a new one at https://console.groq.com/keys"
+            }
+            
         return {
             "error": "AI Analysis Failed",
             "details": error_msg

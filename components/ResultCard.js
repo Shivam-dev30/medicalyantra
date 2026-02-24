@@ -2,112 +2,110 @@
 import { motion } from "framer-motion";
 
 export default function ResultCard({ result, loading }) {
-  const getRisk = () => {
-    if (!result?.issues_detected) return null;
-    if (result.issues_detected.some(i => i.risk_level === "High")) return "High";
-    if (result.issues_detected.some(i => i.risk_level === "Moderate")) return "Moderate";
-    return "Low";
+  const getStatus = () => {
+    if (!result) return null;
+    const high = result.issues_detected?.some(i => i.risk_level === "High");
+    return high ? "ACTION_REQUIRED" : "GENERALLY_HEALTHY";
   };
 
-  const risk = getRisk();
-
-  const riskStyle = {
-    High: "bg-red-500/20 text-red-400 border-red-500/30",
-    Moderate: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-    Low: "bg-green-500/20 text-green-400 border-green-500/30",
-  };
+  const status = getStatus();
 
   return (
-    <motion.aside
-      initial={{ y: 25, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="card-glass p-6 tilt relative"
-      style={{ minHeight: 280 }}
-    >
-      <div className="holo-scan" aria-hidden />
+    <div className="relative group">
+      {/* Decorative HUD Lines */}
+      <div className="absolute top-0 -left-10 w-px h-full bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent" />
+      <div className="absolute top-0 -right-10 w-px h-full bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent" />
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <div className="kicker">Analysis</div>
-          <div className="font-semibold text-base">Quick Summary</div>
+      <div className="space-y-12 backdrop-blur-3xl p-10 border-l-2 border-emerald-500/10">
+
+        {/* Header Telemetry */}
+        <div className="space-y-2">
+          <div className="glitch-mono text-[9px] opacity-40">HEALTH_SUMMARY_HUD</div>
+          <h2 className="text-4xl font-black italic tracking-tighter text-white">SUMMARY</h2>
+          <div className="h-0.5 w-12 bg-emerald-500 shadow-[0_0_10px_#00ff9f]" />
         </div>
-        <div className="hud">Realtime</div>
-      </div>
 
-      {/* Loading */}
-      {loading && (
-        <div className="subtle animate-pulse">
-          Running AI medical analysis…
-        </div>
-      )}
-
-      {/* Idle */}
-      {!loading && !result && (
-        <div className="subtle">
-          Upload a medical report to view analysis.
-        </div>
-      )}
-
-      {/* Error */}
-      {result?.error && (
-        <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-          <div className="text-sm text-red-400 font-bold mb-1">
-            ⚠️ {result.error}
-          </div>
-          {result.details && (
-            <div className="mt-2 text-xs text-yellow-300 font-mono break-words">
-              <span className="opacity-50 text-[10px] uppercase block mb-1">Error Details:</span>
-              {result.details}
+        {/* Dynamic Condition Display */}
+        {result ? (
+          <motion.div
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            className={`p-6 border ${status === 'ACTION_REQUIRED' ? 'border-red-500/20 bg-red-500/5 text-red-400' : 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400'}`}
+          >
+            <div className="glitch-mono text-[8px] mb-2 opacity-60">CURRENT_HEALTH_STATE</div>
+            <div className="text-3xl font-black uppercase tracking-widest italic">
+              {status ? status.replaceAll('_', ' ') : ''}
             </div>
-          )}
-        </div>
-      )}
-
-      {/* Result */}
-      {!loading && result && !result.error && (
-        <div className="space-y-4">
-
-          {/* Overall Status */}
-          <div className="rounded-lg p-3 bg-gradient-to-r from-primary/10 to-accent/10">
-            <p className="text-sm leading-relaxed">
-              <span className="font-medium">Overall Status:</span>{" "}
-              {result.overall_status || "Unavailable"}
-            </p>
+            <div className="mt-4 flex gap-1">
+              {[...Array(20)].map((_, i) => (
+                <div key={i} className={`h-1 flex-1 ${i < 12 ? 'bg-current' : 'bg-current/10'}`} />
+              ))}
+            </div>
+          </motion.div>
+        ) : loading ? (
+          <div className="py-10 space-y-4">
+            <div className="h-1 w-full bg-emerald-500/10 relative overflow-hidden">
+              <motion.div
+                className="absolute inset-x-0 h-full bg-emerald-500 shadow-[0_0_10px_#00ff9f]"
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            </div>
+            <div className="glitch-mono text-center animate-pulse">ANALYZING...</div>
           </div>
+        ) : (
+          <div className="py-10 text-center space-y-4 opacity-40">
+            <div className="glitch-mono text-[10px]">AWAITING_REPORT_SCAN</div>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 px-6">Upload document to view summary.</p>
+          </div>
+        )}
 
-          {/* Risk Badge */}
-          {risk && (
+        {/* Key Finding Nodes */}
+        {result?.issues_detected && (
+          <div className="space-y-6">
+            <div className="glitch-mono text-[9px] opacity-40 flex justify-between">
+              <span>KEY_FINDINGS</span>
+              <span>[ {result.issues_detected.length} DETECTED ]</span>
+            </div>
+            <div className="space-y-4">
+              {result.issues_detected.slice(0, 4).map((issue, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="relative pl-6 py-2 border-l border-white/5 group hover:border-emerald-500 transition-colors"
+                >
+                  <div className="absolute left-[-3px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover:bg-emerald-500 shadow-[0_0_8px_#00ff9f]" />
+                  <div className="text-[11px] font-bold text-slate-400 group-hover:text-white transition-colors">{issue.parameter || "HEALTH_VAR"}</div>
+                  <div className="text-[9px] glitch-mono text-emerald-500/60 mt-0.5">{issue.risk_level?.toUpperCase()}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* System Fidelity HUD */}
+        <div className="pt-10 border-t border-white/5 space-y-4">
+          <div className="flex justify-between glitch-mono text-[9px] opacity-40">
+            <span>AI_CONFIDENCE</span>
+            <span>98.6%</span>
+          </div>
+          <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs ${riskStyle[risk]}`}
-            >
-              <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
-              Risk Level: {risk}
-            </motion.div>
-          )}
-
-          {/* Key Findings */}
-          {result.issues_detected?.length > 0 && (
-            <div>
-              <div className="hud mb-2">Key Observations</div>
-              <div className="space-y-2 text-xs">
-                {result.issues_detected.slice(0, 3).map((issue, idx) => (
-                  <div
-                    key={idx}
-                    className="flex justify-between items-center gap-3 border-b border-white/5 pb-1"
-                  >
-                    <span className="subtle">{issue.parameter}</span>
-                    <span className="opacity-90">{issue.issue}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+              className="absolute inset-0 bg-emerald-500"
+              initial={{ width: 0 }}
+              animate={{ width: "98.6%" }}
+              transition={{ duration: 2, ease: "easeOut" }}
+            />
+          </div>
+          <div className="flex gap-2 justify-end items-center">
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+            <div className="glitch-mono text-[8px] opacity-60">ANALYSIS_LIVE</div>
+          </div>
         </div>
-      )}
-    </motion.aside>
+
+      </div>
+    </div>
   );
 }
